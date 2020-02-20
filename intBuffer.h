@@ -1,7 +1,7 @@
 #ifndef INTBUFFER_H
 #define INTBUFFER_H
 
-#include <arduino.h>
+#include <Arduino.h>
 
 struct IntBuffer {
     int32_t integer;

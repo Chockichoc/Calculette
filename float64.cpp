@@ -1,5 +1,5 @@
 #include "float64.h"
-#include <arduino.h>
+#include <Arduino.h>
 
 uint8_t countDigit(uint64_t n) 
 { 

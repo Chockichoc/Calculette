@@ -1,7 +1,7 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-#include <arduino.h>
+#include <Arduino.h>
 
 enum InputToScan : uint8_t {
   idle = 1,

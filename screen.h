@@ -1,7 +1,7 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include <arduino.h>
+#include <Arduino.h>
 #include <SPI.h>
 #include "intBuffer.h"
 
@@ -56,9 +56,10 @@ class Screen {
       SPI.beginTransaction(SPISettings(500000, MSBFIRST, SPI_MODE0));
     };
 
+    void init();
     void writeData(uint8_t address, uint8_t data);
     void printInt(uint8_t integer, uint8_t digit);
-    void printBuffer(IntBuffer buffer);
+    void printBuffer(IntBuffer& buffer);
 
 };
 

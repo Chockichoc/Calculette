@@ -1,7 +1,7 @@
 #ifndef FLOAT64_H
 #define FLOAT64_H
 
-#include <arduino.h>
+#include <Arduino.h>
 
 class Float64 {
   private:
