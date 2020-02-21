@@ -27,7 +27,15 @@ Float64::Float64(uint64_t number) {
 }
 
 Float64::Float64(int32_t inputNumber, int8_t exponent){
-
+  if(inputNumber == 0)
+  {
+    mantissa = 0;
+    sign = 0;
+    exponent = 0;
+    return;
+  }
+  
+  exponent--;
   /////SET SIGN BIT
   if(inputNumber > 0)
     sign = 0;
@@ -88,7 +96,7 @@ Float64::Float64(int32_t inputNumber, int8_t exponent){
   mantissa = (integerPart + finalFractionalPart) & 0xFFFFFFFFFFFFF;
 
   /////SET EXPONENT BITS
-  exponent = (integerPartWidth - 1 + 1023);
+  this->exponent = (integerPartWidth - 1 + 1023);
 
 }
 
@@ -127,7 +135,7 @@ Float64 Float64::add(Float64& lOperand, Float64& rOperand) {
   int16_t rExponent = rFloat->getExponent()-1023;
 
   uint64_t lMantissa = lFloat->getMantissa() + ((uint64_t)1<<52);
-  uint64_t rMantissa = (rFloat->getMantissa() + ((uint64_t)1<<52)) >> (lExponent - rExponent);
+  uint64_t rMantissa = (rFloat->getMantissa() + ((uint64_t)1<<52)) >> min(53, (lExponent - rExponent));
 
   uint8_t lSign = lFloat->getSign();
   uint8_t rSign = rFloat->getSign();
@@ -143,9 +151,12 @@ Float64 Float64::add(Float64& lOperand, Float64& rOperand) {
      resultSign = (lMantissa > rMantissa) ? lSign : rSign;
   }
 
+  if(resultMantissa == 0)
+    return Float64{0};
+
   uint64_t bit = 0;
   uint8_t counter = 64;
-  while(!bit) {
+  while(!bit && counter != 0) {
     counter--;
     bit = resultMantissa & ((uint64_t)1 << counter);
   }
@@ -226,10 +237,6 @@ Float64 Float64::operator/(Float64& rOperand) {
     dividendMantissa = dividendMantissa<<1;
   }
 
-    Serial.println("Mantissa");
-  Serial.println((uint32_t)(resultMantissa>>32), HEX);
-  Serial.println((uint32_t)resultMantissa, HEX);
-
   uint64_t bit = 0;
   uint8_t counter = 64;
   while(!bit && counter != 0) {
@@ -247,7 +254,7 @@ Float64 Float64::operator/(Float64& rOperand) {
   Serial.println((uint32_t)(resultMantissa>>32), HEX);
   Serial.println((uint32_t)resultMantissa, HEX);
   
-  uint16_t resultExponent = this->getExponent() - rOperand.getExponent() - 1023 - 2 - offset;
+  uint16_t resultExponent = this->getExponent() - rOperand.getExponent() + 1023 - offset;
 
   return Float64{resultSign, resultExponent, resultMantissa};
 }

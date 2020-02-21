@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include "intBuffer.h"
+#include "float64.h"
 
 //Register Address Map
 constexpr uint8_t NO_OP         = 0x00;
@@ -59,7 +60,7 @@ class Screen {
     void init();
     void writeData(uint8_t address, uint8_t data);
     void printInt(uint8_t integer, uint8_t digit);
-    void printBuffer(IntBuffer& buffer);
+    void printBuffer(IntBuffer buffer);
 
 };
 

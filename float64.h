@@ -20,6 +20,7 @@ class Float64 {
     uint64_t getMantissa();
 
     uint64_t getHexVersion();
+    
 
     Float64 add(Float64& lOperand, Float64& rOperand);
     Float64 operator+(Float64& rOperand);

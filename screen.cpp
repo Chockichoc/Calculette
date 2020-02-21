@@ -35,19 +35,16 @@ void Screen::printInt(uint8_t integer, uint8_t digit) {
 
 
 
-void Screen::printBuffer(IntBuffer& buffer) {
+void Screen::printBuffer(IntBuffer buffer) {
   uint8_t bufferLength = buffer.getLength();
   
   for(uint8_t i = 0; i < 8; i++) {
-    if(buffer.exponent >= 0) {
-      if(i < bufferLength) {
-        printInt((abs(buffer.integer)/power(10, i)) % 10 + ((i!= 0) && (i == (bufferLength-buffer.exponent-1)) ? CHR_DOT : 0), i);
-      } else if(i == bufferLength) {
-        printInt(buffer.integer < 0 ? CHR_BAR : CHR_BLANK, i);
-      } else {
-        printInt(CHR_BLANK, i);
-      }
-      
-    }
+    if(i < bufferLength-min(0, (buffer.exponent-1))) {
+      printInt((abs(buffer.integer)/power(10, i)) % 10 + ((i!= 0) && (i == (bufferLength-buffer.exponent)) ? CHR_DOT : 0), i);
+    } else if(i == bufferLength-min(0, buffer.exponent)) {
+      printInt(buffer.integer < 0 ? CHR_BAR : CHR_BLANK, i);
+    } else {
+      printInt(CHR_BLANK, i);
+    } 
   }
 }
