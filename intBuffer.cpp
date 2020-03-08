@@ -3,6 +3,14 @@
 uint8_t countDigit(uint64_t n) ;
 uint64_t power(uint64_t a, uint8_t b);
 
+float powerf(uint64_t a, uint32_t b) {
+  float result = 1;
+  for(uint32_t i = 0; i < b; i++) {
+    result *= a;
+  }
+  return result;
+}
+
 uint8_t IntBuffer::getLength() {
   uint8_t count = 0;
   int32_t _integer = this->integer;
@@ -32,7 +40,7 @@ IntBuffer::IntBuffer(Float64 fl64) {
     if((exponent - i) >= 0) 
       integerPart += (mantissa & ((uint64_t)1<<(52-i))) ? power(2, exponent-i) : 0.0f;
     else
-      fractionalPart += (mantissa & ((uint64_t)1<<(52-i))) ? 1.0f / power(2, -(exponent-i)) : 0.0f;
+      fractionalPart += (mantissa & ((uint64_t)1<<(52-i))) ? 1.0f / powerf(2, -(exponent-i)) : 0.0f;
   }
 
   uint8_t delta = (sign == 0 ? 8 : 7) - max(1, countDigit(integerPart));

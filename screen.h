@@ -48,6 +48,7 @@ constexpr uint8_t TEST_MODE     = 0x01;
 class Screen {
   private:
     uint8_t cs;
+    int8_t lightIntensity = 0x02;
  
   public:
     Screen(uint8_t cs): cs{cs} {   
@@ -61,6 +62,12 @@ class Screen {
     void writeData(uint8_t address, uint8_t data);
     void printInt(uint8_t integer, uint8_t digit);
     void printBuffer(IntBuffer buffer);
+    void printError();
+
+    void increaseLight();
+    void decreaseLight();
+
+    void launchIntro();
 
 };
 
